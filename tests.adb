@@ -16,23 +16,23 @@ procedure Tests is
       end if;
    end Check;
 
-   Mat_2x2 : constant Matrix (1 .. 2, 1 .. 2) := ((2.0, 1.0), (1.0, 2.0));
-   Vec_2x2 : constant Vector (1 .. 2) := (1.0, 1.0);
-   Obs_2x2 : constant Matrix (1 .. 2, 1 .. 2) := ((1.0, 0.0), (0.0, 1.0));
+   Mat_2x2 : constant Matrix (1 .. 2, 1 .. 2) := [[2.0, 1.0], [1.0, 2.0]];
+   Vec_2x2 : constant Vector (1 .. 2) := [1.0, 1.0];
+   Obs_2x2 : constant Matrix (1 .. 2, 1 .. 2) := [[1.0, 0.0], [0.0, 1.0]];
 
-   Mat_Non_Hermitian : constant Matrix (1 .. 2, 1 .. 2) := ((2.0, 3.0), (1.0, 2.0));
-   Vec_Zero          : constant Vector (1 .. 2) := (0.0, 0.0);
-   Vec_Mismatched    : constant Vector (1 .. 3) := (1.0, 2.0, 3.0);
+   Mat_Non_Hermitian : constant Matrix (1 .. 2, 1 .. 2) := [[2.0, 3.0], [1.0, 2.0]];
+   Vec_Zero          : constant Vector (1 .. 2) := [0.0, 0.0];
+   Vec_Mismatched    : constant Vector (1 .. 3) := [1.0, 2.0, 3.0];
 
    Mat_3x3 : constant Matrix (1 .. 3, 1 .. 3) := 
-     ((4.0, 1.0, 0.0),
-      (1.0, 4.0, 1.0),
-      (0.0, 1.0, 4.0));
-   Vec_3x3 : constant Vector (1 .. 3) := (1.0, 2.0, 1.0);
+     [ [4.0, 1.0, 0.0],
+       [1.0, 4.0, 1.0],
+       [0.0, 1.0, 4.0] ];
+   Vec_3x3 : constant Vector (1 .. 3) := [1.0, 2.0, 1.0];
    Obs_3x3 : constant Matrix (1 .. 3, 1 .. 3) := 
-     ((1.0, 0.0, 0.0),
-      (0.0, 1.0, 0.0),
-      (0.0, 0.0, 1.0));
+     [ [1.0, 0.0, 0.0],
+       [0.0, 1.0, 0.0],
+       [0.0, 0.0, 1.0] ];
 
    Ex_Caught : Boolean;
 begin
@@ -45,8 +45,10 @@ begin
       when others =>
          Check ("1.1 Valid 2x2 matrix and vector accepted", False);
    end;
+   pragma Warnings (Off, "condition is always True");
    Check ("1.2 Matrix dimension matches vector length", Mat_2x2'Length(1) = Vec_2x2'Length);
    Check ("1.3 Condition number >= 1.0", 2.0 >= 1.0);
+   pragma Warnings (On, "condition is always True");
 
    -- TEST 2 — Non-Hermitian Matrix Error
    Put_Line ("TEST 2 — Non-Hermitian Matrix Error");
@@ -129,7 +131,7 @@ begin
    -- TEST 8 — Controlled Rotation Simulation Normal
    Put_Line ("TEST 8 — Controlled Rotation Simulation Normal");
    declare
-       Rot_Val : constant Real := Controlled_Rotation_Sim (2.0, 1.0, 10.0);
+       Rot_Val : constant Real := Controlled_Rotation_Sim (2.0, 1.0, Condition_Number (10.0));
    begin
        Check ("8.1 Controlled rotation returns valid ratio", Rot_Val > 0.0);
        Check ("8.2 Computed ratio equals C / lambda (0.5)", abs (Rot_Val - 0.5) < 1.0E-5);
@@ -139,7 +141,7 @@ begin
    -- TEST 9 — Controlled Rotation Simulation Saturation
    Put_Line ("TEST 9 — Controlled Rotation Simulation Saturation");
    declare
-       Rot_Sat : constant Real := Controlled_Rotation_Sim (0.5, 1.0, 10.0);
+       Rot_Sat : constant Real := Controlled_Rotation_Sim (0.5, 1.0, Condition_Number (10.0));
    begin
        Check ("9.1 Small lambda causes rotation ratio saturation", Rot_Sat = 1.0);
        Check ("9.2 Rotation clamped correctly at maximum 1.0", Rot_Sat <= 1.0);
