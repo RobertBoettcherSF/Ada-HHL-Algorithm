@@ -1,6 +1,9 @@
-with Ada.Numerics.Elementary_Functions; use Ada.Numerics.Elementary_Functions;
+with Ada.Numerics.Generic_Elementary_Functions;
 
 package body Hhl_Algorithm is
+
+   package Real_Functions is new Ada.Numerics.Generic_Elementary_Functions (Real);
+   use Real_Functions;
 
    function Is_Hermitian (A : Matrix; Tolerance : Real := 1.0E-6) return Boolean is
       N : constant Natural := A'Length(1);
