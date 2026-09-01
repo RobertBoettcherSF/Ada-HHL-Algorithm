@@ -10,7 +10,7 @@ package body Hhl_Algorithm is
       end if;
       for I in A'Range(1) loop
          for J in A'Range(2) loop
-            if Real'Abs (A (I, J) - A (J, I)) > Tolerance then
+            if abs (A (I, J) - A (J, I)) > Tolerance then
                return false;
             end if;
          end loop;
@@ -64,10 +64,10 @@ package body Hhl_Algorithm is
       Ratio : Real;
       pragma Unreferenced (Kappa_Max);
    begin
-      if Real'Abs (Lambda) < 1.0E-12 then
+      if abs (Lambda) < 1.0E-12 then
          raise Condition_Number_Out_Of_Bounds;
       end if;
-      Ratio := C_Const / Real'Abs (Lambda);
+      Ratio := C_Const / abs (Lambda);
       if Ratio > 1.0 then
          Ratio := 1.0;
       end if;
