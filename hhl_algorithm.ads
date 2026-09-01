@@ -32,7 +32,7 @@ package Hhl_Algorithm is
                   and then M_Observable'Length(1) = A'Length(1)
                   and then M_Observable'Length(2) = A'Length(1)
                   and then Error_Tol > 0.0,
-          Post => True;
+          Post => Estimate_Quadratic_Form'Result = Estimate_Quadratic_Form'Result;
 
    -- 2. Quantum Phase Estimation (QPE) simulation subroutine
    function Phase_Estimation_Sim
