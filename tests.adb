@@ -112,7 +112,7 @@ begin
        Res_Qpe : constant Real := Phase_Estimation_Sim (1.5, 4);
    begin
        Check ("6.1 QPE simulation returns positive value", Res_Qpe > 0.0);
-       Check ("6.2 QPE result approximates eigenvalue", Real'Abs(Res_Qpe - 1.5) < 0.2);
+       Check ("6.2 QPE result approximates eigenvalue", abs (Res_Qpe - 1.5) < 0.2);
        Check ("6.3 T_Steps parameter handled correctly", Res_Qpe > 1.5);
    end;
 
@@ -132,7 +132,7 @@ begin
        Rot_Val : constant Real := Controlled_Rotation_Sim (2.0, 1.0, 10.0);
    begin
        Check ("8.1 Controlled rotation returns valid ratio", Rot_Val > 0.0);
-       Check ("8.2 Computed ratio equals C / lambda (0.5)", Real'Abs(Rot_Val - 0.5) < 1.0E-5);
+       Check ("8.2 Computed ratio equals C / lambda (0.5)", abs (Rot_Val - 0.5) < 1.0E-5);
        Check ("8.3 Rotation value within [0, 1]", Rot_Val <= 1.0);
    end;
 
